@@ -1,0 +1,29 @@
+%YAML:1.0
+
+##############################################################################
+################## carto_slam for 2d mapping and localization ################
+##############################################################################
+
+################################# Sensors ####################################
+laser_topic: /rslidar_points
+imu_topic: /BMI088
+imu_refine: 1 # acc = acc * g_norm
+
+################################# Calibration ####################################
+#Translation from laser frame to body frame (robot frame)
+device_B_L_rot_x: 0.0
+device_B_L_rot_y: 0.0
+device_B_L_rot_z: 0.0
+device_B_L_offset_x: 0.0
+device_B_L_offset_y: 0.0
+device_B_L_offset_z: 0.0
+
+#Translation from imu frame to laser frame, laser^T_imu
+extrinsic_rotation_imu:
+  [0.0,  1.0,  0.0,
+   -1.0, 0.0, 0.0,
+   0.0,  0.0, 1.0]
+
+extrinsic_translation_imu:
+  [-0.016, 0.0, 0.075]
+
