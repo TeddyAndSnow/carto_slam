@@ -1,5 +1,4 @@
 #include "estimator/imu_tracker.h"
-
 #include "common/transform.h"
 
 namespace carto_slam
@@ -38,7 +37,7 @@ namespace carto_slam
                 (1. - alpha) * gravity_vector_ + alpha * imu_linear_acceleration;
             // Change the 'orientation_' so that it agrees with the current
             // 'gravity_vector_'.
-            const Eigen::Quaterniond rotation = common::FromTwoVectors(
+            const Eigen::Quaterniond rotation = Eigen::Quaterniond::FromTwoVectors(
                 gravity_vector_, orientation_.conjugate() * Eigen::Vector3d::UnitZ());
             orientation_ = (orientation_ * rotation).normalized();
             //CHECK_GT((orientation_ * gravity_vector_).z(), 0.);

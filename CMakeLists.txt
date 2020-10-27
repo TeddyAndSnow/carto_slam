@@ -35,8 +35,9 @@ if (catkin_FOUND)
         src/common/config.cpp
         src/common/rigid_transform.cpp
         src/common/time.cpp
+        src/common/pointcloud_transform.cpp
         src/estimator/imu_tracker.cpp
-        #src/estimator/pose_extrapolator.cpp
+        src/estimator/pose_extrapolator.cpp
         )
     
     target_link_libraries(carto_slam_node

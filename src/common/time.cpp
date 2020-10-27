@@ -26,8 +26,7 @@ namespace carto_slam
 
     double ToSeconds(const std::chrono::steady_clock::duration duration)
     {
-      return std::chrono::duration_cast<std::chrono::duration<double>>(duration)
-          .count();
+      return std::chrono::duration_cast<std::chrono::duration<double>>(duration).count();
     }
 
     Time FromUniversal(const int64 ticks) { return Time(Duration(ticks)); }
