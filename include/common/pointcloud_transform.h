@@ -62,5 +62,11 @@ namespace carto_slam
         // by 'min_z' and 'max_z'.
         PointCloud CropPointCloud(const PointCloud &point_cloud, float min_z,
                                   float max_z);
+
+        RangeData TransformRangeData(const RangeData &range_data,
+                                     const common::Rigid3f &transform);
+
+        // Crops 'range_data' according to the region defined by 'min_z' and 'max_z'.
+        RangeData CropRangeData(const RangeData &range_data, float min_z, float max_z);
     } // namespace common
 } // namespace carto_slam

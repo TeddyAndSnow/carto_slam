@@ -19,18 +19,13 @@ namespace carto_slam
         const common::Duration pose_queue_duration,
         const double imu_gravity_time_constant, const common::ImuData &imu_data)
     {
-      auto extrapolator = std::make_unique<PoseExtrapolator>(
-          pose_queue_duration, imu_gravity_time_constant);
+      auto extrapolator = std::make_unique<PoseExtrapolator>(pose_queue_duration, imu_gravity_time_constant);
       extrapolator->AddImuData(imu_data);
       extrapolator->imu_tracker_ = std::make_unique<ImuTracker>(imu_gravity_time_constant, imu_data.time);
-      extrapolator->imu_tracker_->AddImuLinearAccelerationObservation(
-          imu_data.linear_acceleration);
-      extrapolator->imu_tracker_->AddImuAngularVelocityObservation(
-          imu_data.angular_velocity);
+      extrapolator->imu_tracker_->AddImuLinearAccelerationObservation(imu_data.linear_acceleration);
+      extrapolator->imu_tracker_->AddImuAngularVelocityObservation(imu_data.angular_velocity);
       extrapolator->imu_tracker_->Advance(imu_data.time);
-      extrapolator->AddPose(
-          imu_data.time,
-          common::Rigid3d::Rotation(extrapolator->imu_tracker_->orientation()));
+      extrapolator->AddPose(imu_data.time, common::Rigid3d::Rotation(extrapolator->imu_tracker_->orientation()));
       return extrapolator;
     }
 
@@ -62,8 +57,7 @@ namespace carto_slam
         {
           tracker_start = std::min(tracker_start, imu_data_.front().time);
         }
-        imu_tracker_ =
-            std::make_unique<ImuTracker>(gravity_time_constant_, tracker_start);
+        imu_tracker_ = std::make_unique<ImuTracker>(gravity_time_constant_, tracker_start);
       }
       timed_pose_queue_.push_back(TimedPose{time, pose});
       while (timed_pose_queue_.size() > 2 &&

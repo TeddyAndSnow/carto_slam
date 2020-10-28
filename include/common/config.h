@@ -108,6 +108,58 @@ namespace carto_slam {
         ///< Translation from imu frame to laser frame, laser^T_imu
         Eigen::Matrix3d RLI;
         Eigen::Vector3d TLI;
+
+        double occupied_space_weight_;
+        double translation_weight_;
+        double rotation_weight_;
+
+        bool use_nonmonotonic_steps_;
+        int max_num_iterations_;
+        int num_threads_;
+
+        bool insert_free_space_; //probability_grid_range_data_inserter_2d.h
+        float hit_probability_; //probability_grid_range_data_inserter_2d.h
+        float miss_probability_; //probability_grid_range_data_inserter_2d.h
+
+        size_t num_normal_samples_; //normal_estimation_2d.h
+        float sample_radius_; //normal_estimation_2d.h
+
+        double truncation_distance_; //tsdf_range_data_inserter_2d.h
+        double maximum_weight_; //tsdf_range_data_inserter_2d.h
+        bool update_free_space_; //tsdf_range_data_inserter_2d.h
+        bool project_sdf_distance_to_scan_normal_;  //tsdf_range_data_inserter_2d.h
+        int update_weight_range_exponent_; //tsdf_range_data_inserter_2d.h
+        double update_weight_angle_scan_normal_to_ray_kernel_bandwidth_; //tsdf_range_data_inserter_2d.h
+        double update_weight_distance_cell_to_hit_kernel_bandwidth_; //tsdf_range_data_inserter_2d.h
+
+        int num_range_data_;//submap_2d.h
+        float grid_options_2d_resolution_; //submap_2d.h
+        std::string grid_options_2d_grid_type_; //submap_2d.h  PROBABILITY_GRID / TSDF
+        std::string grid_options_2d_range_data_inserter_type_; // submap_2d.h  PROBABILITY_GRID_INSERTER_2D /  TSDF_INSERTER_2D
+        float range_data_inserter_truncation_distance_;
+        float range_data_inserter_maximum_weight_;
+
+        double max_time_seconds_;  //motion_filter.h
+        double max_distance_meters_; // motion_filter.h
+        double max_angle_radians_; // motion_filter.h
+
+        int adaptive_voxel_filter_min_num_points_; //voxel_filter.h
+        float adaptive_voxel_filter_max_length_; //voxel_filter.h
+        float adaptive_voxel_filter_max_range_; //voxel_filter.h
+
+        float min_z_; //local_trajectory_builder_2d.h
+        float max_z_;
+        float voxel_filter_size_;
+        bool use_online_correlative_scan_matching_;
+        bool use_imu_data_;
+        float min_range_;
+        float max_range_;
+        float missing_data_ray_length_;
+        int num_accumulated_range_data_;
+
+        float imu_gravity_time_constant_;
+        double pose_queue_duration_;
+
     private:
         YAML::Node node_;
         std::string config_filepath_;    

@@ -33,7 +33,7 @@ namespace carto_slam
     T GetYaw(const Eigen::Quaternion<T> &rotation)
     {
       const Eigen::Matrix<T, 3, 1> direction = rotation * Eigen::Matrix<T, 3, 1>::UnitX();
-      return atan2(direction.y(), direction.x());
+      return std::atan2(direction.y(), direction.x());
     }
 
     // Returns the yaw component in radians of the given 3D transformation

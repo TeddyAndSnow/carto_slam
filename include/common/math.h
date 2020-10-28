@@ -10,6 +10,9 @@ namespace carto_slam
 {
   namespace common
   {
+    inline int RoundToInt(const float x) { return std::lround(x); }
+
+    inline int RoundToInt(const double x) { return std::lround(x); }
 
     // Clamps 'value' to be in the range ['min', 'max'].
     template <typename T>

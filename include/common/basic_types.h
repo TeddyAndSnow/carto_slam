@@ -8,7 +8,6 @@ namespace carto_slam
 {
     namespace common
     {
-
         // Stores 3D position of a point observed by a rangefinder sensor.
         struct RangefinderPoint
         {
@@ -50,6 +49,17 @@ namespace carto_slam
             common::Time time;
             std::vector<Eigen::Vector3f> origins;
             std::vector<RangeMeasurement> ranges;
+        };
+
+        // Rays begin at 'origin'. 'returns' are the points where obstructions were
+        // detected. 'misses' are points in the direction of rays for which no return
+        // was detected, and were inserted at a configured distance. It is assumed that
+        // between the 'origin' and 'misses' is free space.
+        struct RangeData
+        {
+            Eigen::Vector3f origin;
+            PointCloud returns;
+            PointCloud misses;
         };
 
         struct ImuData
