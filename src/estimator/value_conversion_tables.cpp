@@ -1,5 +1,7 @@
 
 #include "estimator/value_conversion_tables.h"
+#include <memory>
+// #include <unique.h>
 
 namespace carto_slam
 {

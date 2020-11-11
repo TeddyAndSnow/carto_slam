@@ -7,6 +7,7 @@
 #include "estimator/2d/map_limits.h"
 #include "estimator/2d/tsd_value_converter.h"
 #include "estimator/2d/xy_index.h"
+#include "io/submap_painter.h"
 namespace carto_slam
 {
     using namespace common;
@@ -31,6 +32,8 @@ namespace carto_slam
             void GrowLimits(const Eigen::Vector2f &point) override;
             std::unique_ptr<Grid2D> ComputeCroppedGrid() const override;
             bool CellIsUpdated(const Eigen::Array2i &cell_index) const;
+            bool DrawToSubmapTexture(io::SubmapTextureData *const texture,
+                                     common::Rigid3d local_pose) const override;
 
         private:
             ValueConversionTables *conversion_tables_;

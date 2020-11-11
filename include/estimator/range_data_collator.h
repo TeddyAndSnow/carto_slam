@@ -1,6 +1,8 @@
 #pragma once
 
 #include <memory>
+#include <set>
+#include <map>
 #include "common/basic_types.h"
 
 namespace carto_slam

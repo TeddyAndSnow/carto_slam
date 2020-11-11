@@ -28,6 +28,7 @@ namespace carto_slam
         class LocalTrajectoryBuilder2D
         {
         public:
+            typedef std::shared_ptr<LocalTrajectoryBuilder2D> Ptr;
             struct InsertionResult
             {
                 std::shared_ptr<const TrajectoryNode::Data> constant_data;
@@ -42,7 +43,7 @@ namespace carto_slam
                 std::unique_ptr<const InsertionResult> insertion_result;
             };
 
-            explicit LocalTrajectoryBuilder2D(const Config &options, const std::vector<std::string> &expected_range_sensor_ids);
+            LocalTrajectoryBuilder2D(const Config &options, const std::vector<std::string> &expected_range_sensor_ids);
             ~LocalTrajectoryBuilder2D();
 
             //LocalTrajectoryBuilder2D(const LocalTrajectoryBuilder2D &) = delete;
@@ -71,24 +72,23 @@ namespace carto_slam
             // static void RegisterMetrics(metrics::FamilyFactory *family_factory);
 
         private:
-            std::unique_ptr<MatchingResult> AddAccumulatedRangeData(
-                common::Time time, const common::RangeData &gravity_aligned_range_data,
-                const common::Rigid3d &gravity_alignment,
-                const std::optional<common::Duration> &sensor_duration);
-            common::RangeData TransformToGravityAlignedFrameAndFilter(
-                const common::Rigid3f &transform_to_gravity_aligned_frame,
-                const common::RangeData &range_data) const;
-            std::unique_ptr<InsertionResult> InsertIntoSubmap(
-                common::Time time, const common::RangeData &range_data_in_local,
-                const common::PointCloud &filtered_gravity_aligned_point_cloud,
-                const common::Rigid3d &pose_estimate,
-                const Eigen::Quaterniond &gravity_alignment);
+            std::unique_ptr<MatchingResult> AddAccumulatedRangeData(common::Time time,
+                                                                    const common::RangeData &gravity_aligned_range_data,
+                                                                    const common::Rigid3d &gravity_alignment,
+                                                                    const std::optional<common::Duration> &sensor_duration);
+
+            common::RangeData TransformToGravityAlignedFrameAndFilter(const common::Rigid3f &transform_to_gravity_aligned_frame,
+                                                                      const common::RangeData &range_data) const;
+
+            std::unique_ptr<InsertionResult> InsertIntoSubmap(common::Time time, const common::RangeData &range_data_in_local,
+                                                              const common::PointCloud &filtered_gravity_aligned_point_cloud,
+                                                              const common::Rigid3d &pose_estimate,
+                                                              const Eigen::Quaterniond &gravity_alignment);
 
             // Scan matches 'filtered_gravity_aligned_point_cloud' and returns the
             // observed pose, or nullptr on failure.
-            std::unique_ptr<common::Rigid2d> ScanMatch(
-                common::Time time, const common::Rigid2d &pose_prediction,
-                const common::PointCloud &filtered_gravity_aligned_point_cloud);
+            std::unique_ptr<common::Rigid2d> ScanMatch(common::Time time, const common::Rigid2d &pose_prediction,
+                                                       const common::PointCloud &filtered_gravity_aligned_point_cloud);
 
             // Lazily constructs a PoseExtrapolator.
             void InitializeExtrapolator(common::Time time);

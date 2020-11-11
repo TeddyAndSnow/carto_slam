@@ -29,13 +29,14 @@ namespace carto_slam
           motion_filter_(options_),
           // real_time_correlative_scan_matcher_(options_.real_time_correlative_scan_matcher_options()),
           ceres_scan_matcher_(options_),
-          range_data_collator_(expected_range_sensor_ids) {}
+          range_data_collator_(expected_range_sensor_ids)
+    {
+    }
 
     LocalTrajectoryBuilder2D::~LocalTrajectoryBuilder2D() {}
 
-    common::RangeData LocalTrajectoryBuilder2D::TransformToGravityAlignedFrameAndFilter(
-        const common::Rigid3f &transform_to_gravity_aligned_frame,
-        const common::RangeData &range_data) const
+    common::RangeData LocalTrajectoryBuilder2D::TransformToGravityAlignedFrameAndFilter(const common::Rigid3f &transform_to_gravity_aligned_frame,
+                                                                                        const common::RangeData &range_data) const
     {
       const common::RangeData cropped =
           common::CropRangeData(common::TransformRangeData(range_data, transform_to_gravity_aligned_frame),
@@ -46,9 +47,8 @@ namespace carto_slam
           common::VoxelFilter(cropped.misses, options_.voxel_filter_size_)};
     }
 
-    std::unique_ptr<common::Rigid2d> LocalTrajectoryBuilder2D::ScanMatch(
-        const common::Time time, const common::Rigid2d &pose_prediction,
-        const common::PointCloud &filtered_gravity_aligned_point_cloud)
+    std::unique_ptr<common::Rigid2d> LocalTrajectoryBuilder2D::ScanMatch(const common::Time time, const common::Rigid2d &pose_prediction,
+                                                                         const common::PointCloud &filtered_gravity_aligned_point_cloud)
     {
       if (active_submaps_.submaps().empty())
       {
@@ -189,11 +189,10 @@ namespace carto_slam
     }
 
     std::unique_ptr<LocalTrajectoryBuilder2D::MatchingResult>
-    LocalTrajectoryBuilder2D::AddAccumulatedRangeData(
-        const common::Time time,
-        const common::RangeData &gravity_aligned_range_data,
-        const common::Rigid3d &gravity_alignment,
-        const std::optional<common::Duration> &sensor_duration)
+    LocalTrajectoryBuilder2D::AddAccumulatedRangeData(const common::Time time,
+                                                      const common::RangeData &gravity_aligned_range_data,
+                                                      const common::Rigid3d &gravity_alignment,
+                                                      const std::optional<common::Duration> &sensor_duration)
     {
       if (gravity_aligned_range_data.returns.empty())
       {
@@ -253,11 +252,10 @@ namespace carto_slam
     }
 
     std::unique_ptr<LocalTrajectoryBuilder2D::InsertionResult>
-    LocalTrajectoryBuilder2D::InsertIntoSubmap(
-        const common::Time time, const common::RangeData &range_data_in_local,
-        const common::PointCloud &filtered_gravity_aligned_point_cloud,
-        const common::Rigid3d &pose_estimate,
-        const Eigen::Quaterniond &gravity_alignment)
+    LocalTrajectoryBuilder2D::InsertIntoSubmap(const common::Time time, const common::RangeData &range_data_in_local,
+                                               const common::PointCloud &filtered_gravity_aligned_point_cloud,
+                                               const common::Rigid3d &pose_estimate,
+                                               const Eigen::Quaterniond &gravity_alignment)
     {
       if (motion_filter_.IsSimilar(time, pose_estimate))
       {

@@ -2,10 +2,13 @@
 #include "estimator/2d/probability_grid.h"
 
 #include <limits>
+#include <memory>
 
-#include "absl/memory/memory.h"
+// #include "absl/memory/memory.h"
 #include "estimator/probability_values.h"
 #include "estimator/submaps.h"
+
+#include "io/fast_zip.h"
 
 namespace carto_slam
 {
@@ -23,11 +26,9 @@ namespace carto_slam
     void ProbabilityGrid::SetProbability(const Eigen::Array2i &cell_index,
                                          const float probability)
     {
-      uint16 &cell =
-          (*mutable_correspondence_cost_cells())[ToFlatIndex(cell_index)];
-      CHECK_EQ(cell, kUnknownProbabilityValue);
-      cell =
-          CorrespondenceCostToValue(ProbabilityToCorrespondenceCost(probability));
+      uint16 &cell = (*mutable_correspondence_cost_cells())[ToFlatIndex(cell_index)];
+      // CHECK_EQ(cell, kUnknownProbabilityValue);
+      cell = CorrespondenceCostToValue(ProbabilityToCorrespondenceCost(probability));
       mutable_known_cells_box()->extend(cell_index.matrix());
     }
 
@@ -41,7 +42,7 @@ namespace carto_slam
     bool ProbabilityGrid::ApplyLookupTable(const Eigen::Array2i &cell_index,
                                            const std::vector<uint16> &table)
     {
-      DCHECK_EQ(table.size(), kUpdateMarker);
+      // DCHECK_EQ(table.size(), kUpdateMarker);
       const int flat_index = ToFlatIndex(cell_index);
       uint16 *cell = &(*mutable_correspondence_cost_cells())[flat_index];
       if (*cell >= kUpdateMarker)
@@ -50,7 +51,7 @@ namespace carto_slam
       }
       mutable_update_indices()->push_back(flat_index);
       *cell = table[*cell];
-      DCHECK_GE(*cell, kUpdateMarker);
+      // DCHECK_GE(*cell, kUpdateMarker);
       mutable_known_cells_box()->extend(cell_index.matrix());
       return true;
     }
@@ -75,11 +76,8 @@ namespace carto_slam
       CellLimits cell_limits;
       ComputeCroppedLimits(&offset, &cell_limits);
       const double resolution = limits().resolution();
-      const Eigen::Vector2d max =
-          limits().max() - resolution * Eigen::Vector2d(offset.y(), offset.x());
-      std::unique_ptr<ProbabilityGrid> cropped_grid =
-          absl::make_unique<ProbabilityGrid>(
-              MapLimits(resolution, max, cell_limits), conversion_tables_);
+      const Eigen::Vector2d max = limits().max() - resolution * Eigen::Vector2d(offset.y(), offset.x());
+      std::unique_ptr<ProbabilityGrid> cropped_grid = std::make_unique<ProbabilityGrid>(MapLimits(resolution, max, cell_limits), conversion_tables_);
       for (const Eigen::Array2i &xy_index : XYIndexRangeIterator(cell_limits))
       {
         if (!IsKnown(xy_index + offset))
@@ -88,6 +86,50 @@ namespace carto_slam
       }
 
       return std::unique_ptr<Grid2D>(cropped_grid.release());
+    }
+
+    bool ProbabilityGrid::DrawToSubmapTexture(io::SubmapTextureData *const texture,
+                                              common::Rigid3d local_pose) const
+    {
+      Eigen::Array2i offset;
+      CellLimits cell_limits;
+      ComputeCroppedLimits(&offset, &cell_limits);
+
+      std::string cells;
+      for (const Eigen::Array2i &xy_index : XYIndexRangeIterator(cell_limits))
+      {
+        if (!IsKnown(xy_index + offset))
+        {
+          cells.push_back(0 /* unknown log odds value */);
+          cells.push_back(0 /* alpha */);
+          continue;
+        }
+        // We would like to add 'delta' but this is not possible using a value and
+        // alpha. We use premultiplied alpha, so when 'delta' is positive we can
+        // add it by setting 'alpha' to zero. If it is negative, we set 'value' to
+        // zero, and use 'alpha' to subtract. This is only correct when the pixel
+        // is currently white, so walls will look too gray. This should be hard to
+        // detect visually for the user, though.
+        const int delta =
+            128 - ProbabilityToLogOddsInteger(GetProbability(xy_index + offset));
+        const uint8 alpha = delta > 0 ? 0 : -delta;
+        const uint8 value = delta > 0 ? delta : 0;
+        cells.push_back(value);
+        cells.push_back((value || alpha) ? alpha : 1);
+      }
+      std::string g_cells;
+      io::FastGzipString(cells, &g_cells);
+
+      texture->cells = g_cells;
+      texture->width = cell_limits.num_x_cells;
+      texture->height = cell_limits.num_y_cells;
+      const double resolution = limits().resolution();
+      texture->resolution = resolution;
+      const double max_x = limits().max().x() - resolution * offset.y();
+      const double max_y = limits().max().y() - resolution * offset.x();
+      texture->slice_pose = local_pose.inverse() * common::Rigid3d::Translation(Eigen::Vector3d(max_x, max_y, 0.));
+
+      return true;
     }
 
   } // namespace estimator

@@ -6,6 +6,7 @@
 #include <Eigen/Geometry>
 #include "common/math.h"
 #include "common/time.h"
+#include "common/rigid_transform.h"
 #include "estimator/id.h"
 #include "estimator/probability_values.h"
 
@@ -30,8 +31,8 @@ namespace carto_slam
       const int value = common::RoundToInt((Logit(probability) - kMinLogOdds) *
                                            254.f / (kMaxLogOdds - kMinLogOdds)) +
                         1;
-      CHECK_LE(1, value);
-      CHECK_GE(255, value);
+      // CHECK_LE(1, value);
+      // CHECK_GE(255, value);
       return value;
     }
 

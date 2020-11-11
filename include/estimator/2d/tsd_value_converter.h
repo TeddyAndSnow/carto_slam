@@ -26,8 +26,8 @@ namespace carto_slam
       {
         const int value =
             common::RoundToInt((ClampTSD(tsd) - min_tsd_) * tsd_resolution_) + 1;
-        DCHECK_GE(value, 1);
-        DCHECK_LE(value, 32767);
+        // DCHECK_GE(value, 1);
+        // DCHECK_LE(value, 32767);
         return value;
       }
 
@@ -37,8 +37,8 @@ namespace carto_slam
         const int value = common::RoundToInt((ClampWeight(weight) - min_weight_) *
                                              weight_resolution_) +
                           1;
-        DCHECK_GE(value, 1);
-        DCHECK_LE(value, 32767);
+        // DCHECK_GE(value, 1);
+        // DCHECK_LE(value, 32767);
         return value;
       }
 

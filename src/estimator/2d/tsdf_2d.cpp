@@ -1,6 +1,6 @@
 
 #include "estimator/2d/tsdf_2d.h"
-
+#include "io/fast_zip.h"
 #include <memory>
 
 namespace carto_slam
@@ -95,9 +95,7 @@ namespace carto_slam
       const double resolution = limits().resolution();
       const Eigen::Vector2d max =
           limits().max() - resolution * Eigen::Vector2d(offset.y(), offset.x());
-      std::unique_ptr<TSDF2D> cropped_grid = std::make_unique<TSDF2D>(
-          MapLimits(resolution, max, cell_limits), value_converter_->getMaxTSD(),
-          value_converter_->getMaxWeight(), conversion_tables_);
+      std::unique_ptr<TSDF2D> cropped_grid = std::make_unique<TSDF2D>(MapLimits(resolution, max, cell_limits), value_converter_->getMaxTSD(), value_converter_->getMaxWeight(), conversion_tables_);
       for (const Eigen::Array2i &xy_index : XYIndexRangeIterator(cell_limits))
       {
         if (!IsKnown(xy_index + offset))
@@ -107,6 +105,56 @@ namespace carto_slam
       }
       cropped_grid->FinishUpdate();
       return std::move(cropped_grid);
+    }
+
+    bool TSDF2D::DrawToSubmapTexture(io::SubmapTextureData *const texture,
+                                     common::Rigid3d local_pose) const
+    {
+      Eigen::Array2i offset;
+      CellLimits cell_limits;
+      ComputeCroppedLimits(&offset, &cell_limits);
+
+      std::string cells;
+      for (const Eigen::Array2i &xy_index : XYIndexRangeIterator(cell_limits))
+      {
+        if (!IsKnown(xy_index + offset))
+        {
+          cells.push_back(0); // value
+          cells.push_back(0); // alpha
+          continue;
+        }
+        // We would like to add 'delta' but this is not possible using a value and
+        // alpha. We use premultiplied alpha, so when 'delta' is positive we can
+        // add it by setting 'alpha' to zero. If it is negative, we set 'value' to
+        // zero, and use 'alpha' to subtract. This is only correct when the pixel
+        // is currently white, so walls will look too gray. This should be hard to
+        // detect visually for the user, though.
+        float normalized_tsdf = std::abs(GetTSD(xy_index + offset));
+        normalized_tsdf =
+            std::pow(normalized_tsdf / value_converter_->getMaxTSD(), 0.5f);
+        float normalized_weight =
+            GetWeight(xy_index + offset) / value_converter_->getMaxWeight();
+        const int delta = static_cast<int>(
+            std::round(normalized_weight * (normalized_tsdf * 255. - 128.)));
+        const uint8 alpha = delta > 0 ? 0 : -delta;
+        const uint8 value = delta > 0 ? delta : 0;
+        cells.push_back(value);
+        cells.push_back((value || alpha) ? alpha : 1);
+      }
+
+      std::string g_cells;
+      io::FastGzipString(cells, &g_cells);
+      texture->cells = g_cells;
+      texture->width = cell_limits.num_x_cells;
+      texture->height = cell_limits.num_y_cells;
+      const double resolution = limits().resolution();
+      texture->resolution = resolution;
+      const double max_x = limits().max().x() - resolution * offset.y();
+      const double max_y = limits().max().y() - resolution * offset.x();
+      texture->slice_pose = local_pose.inverse() *
+          common::Rigid3d::Translation(Eigen::Vector3d(max_x, max_y, 0.));
+
+      return true;
     }
 
   } // namespace estimator

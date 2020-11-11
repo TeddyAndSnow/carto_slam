@@ -134,7 +134,7 @@ namespace carto_slam
       public:
         using iterator_category = std::bidirectional_iterator_tag;
         using value_type = IdDataReference;
-        using difference_type = int64;
+        using difference_type = common::int64;
         using pointer = std::unique_ptr<const IdDataReference>;
         using reference = const IdDataReference &;
 
@@ -167,7 +167,7 @@ namespace carto_slam
 
         IdDataReference operator*() const
         {
-          CHECK(current_trajectory_ != end_trajectory_);
+          // CHECK(current_trajectory_ != end_trajectory_);
           return IdDataReference{
               IdType{current_trajectory_->first, current_data_->first},
               current_data_->second};
@@ -180,7 +180,7 @@ namespace carto_slam
 
         ConstIterator &operator++()
         {
-          CHECK(current_trajectory_ != end_trajectory_);
+          // CHECK(current_trajectory_ != end_trajectory_);
           ++current_data_;
           AdvanceToValidDataIterator();
           return *this;
@@ -236,7 +236,7 @@ namespace carto_slam
       public:
         using iterator_category = std::bidirectional_iterator_tag;
         using value_type = int;
-        using difference_type = int64;
+        using difference_type = common::int64;
         using pointer = const int *;
         using reference = const int &;
 
@@ -421,7 +421,7 @@ namespace carto_slam
           auto lower_bound_middle = trajectory.lower_bound(middle);
           if (lower_bound_middle->first > middle)
           {
-            CHECK(lower_bound_middle != left);
+            // CHECK(lower_bound_middle != left);
             lower_bound_middle = std::prev(lower_bound_middle);
           }
           if (internal::GetTime(lower_bound_middle->second) < time)

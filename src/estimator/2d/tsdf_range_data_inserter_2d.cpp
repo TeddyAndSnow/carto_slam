@@ -1,4 +1,5 @@
-# include<cstdlib>
+#include <cstdlib>
+#include "common/ceres_math.h"
 #include "estimator/2d/tsdf_range_data_inserter_2d.h"
 
 #include "estimator/2d/normal_estimation_2d.h"
@@ -168,7 +169,7 @@ namespace carto_slam
       {
         const Eigen::Vector2f negative_ray = -ray;
         float angle_ray_normal =
-            common::NormalizeAngleDifference(normal - common::atan2(negative_ray));
+            common::NormalizeAngleDifference(normal - common::atan2Ceres(negative_ray));
         weight_factor_angle_ray_normal = GaussianKernel(
             angle_ray_normal,
             options_.update_weight_angle_scan_normal_to_ray_kernel_bandwidth_);

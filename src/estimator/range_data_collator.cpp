@@ -69,8 +69,7 @@ namespace carto_slam
         }
         if (ranges.begin() < overlap_begin && !warned_for_dropped_points)
         {
-          LOG(WARNING) << "Dropped " << std::distance(ranges.begin(), overlap_begin)
-                       << " earlier points.";
+          // LOG(WARNING) << "Dropped " << std::distance(ranges.begin(), overlap_begin) << " earlier points.";
           warned_for_dropped_points = true;
         }
 

@@ -5,6 +5,7 @@
 #include "estimator/2d/grid_2d.h"
 #include "estimator/2d/map_limits.h"
 #include "estimator/2d/xy_index.h"
+#include "io/submap_painter.h"
 
 namespace carto_slam
 {
@@ -39,6 +40,9 @@ namespace carto_slam
       float GetProbability(const Eigen::Array2i &cell_index) const;
 
       std::unique_ptr<Grid2D> ComputeCroppedGrid() const override;
+
+      bool DrawToSubmapTexture(io::SubmapTextureData *const texture,
+                               common::Rigid3d local_pose) const override;
 
     private:
       ValueConversionTables *conversion_tables_;

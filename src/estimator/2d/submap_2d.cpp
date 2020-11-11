@@ -32,16 +32,16 @@ namespace carto_slam
         const common::RangeData &range_data,
         const RangeDataInserterInterface *range_data_inserter)
     {
-      CHECK(grid_);
-      CHECK(!insertion_finished());
+      // CHECK(grid_);
+      // CHECK(!insertion_finished());
       range_data_inserter->Insert(range_data, grid_.get());
       set_num_range_data(num_range_data() + 1);
     }
 
     void Submap2D::Finish()
     {
-      CHECK(grid_);
-      CHECK(!insertion_finished());
+      // CHECK(grid_);
+      // CHECK(!insertion_finished());
       grid_ = grid_->ComputeCroppedGrid();
       set_insertion_finished(true);
     }
@@ -125,7 +125,7 @@ namespace carto_slam
       {
         // This will crop the finished Submap before inserting a new Submap to
         // reduce peak memory usage a bit.
-        CHECK(submaps_.front()->insertion_finished());
+        // CHECK(submaps_.front()->insertion_finished());
         submaps_.erase(submaps_.begin());
       }
       submaps_.push_back(std::make_unique<Submap2D>(

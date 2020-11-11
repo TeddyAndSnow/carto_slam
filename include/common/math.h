@@ -4,7 +4,8 @@
 #include <vector>
 
 #include <Eigen/Core>
-#include <ceres/ceres.h>
+#include "common/time.h"
+// #include <ceres/ceres.h>
 
 namespace carto_slam
 {
@@ -13,6 +14,10 @@ namespace carto_slam
     inline int RoundToInt(const float x) { return std::lround(x); }
 
     inline int RoundToInt(const double x) { return std::lround(x); }
+
+    inline int64 RoundToInt64(const float x) { return std::lround(x); }
+
+    inline int64 RoundToInt64(const double x) { return std::lround(x); }
 
     // Clamps 'value' to be in the range ['min', 'max'].
     template <typename T>
@@ -59,12 +64,6 @@ namespace carto_slam
       while (difference < -kPi)
         difference += 2. * kPi;
       return difference;
-    }
-
-    template <typename T>
-    T atan2(const Eigen::Matrix<T, 2, 1> &vector)
-    {
-      return ceres::atan2(vector.y(), vector.x());
     }
 
     template <typename T>

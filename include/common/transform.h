@@ -1,17 +1,39 @@
-#ifndef CARTO_SLAM_TRANSFORM_H_
-#define CARTO_SLAM_TRANSFORM_H_
+#pragma once
 
 #include <cmath>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
-#include "math.h"
-#include "rigid_transform.h"
+// #include "common/math.h"
+#include "common/time.h"
+#include "common/rigid_transform.h"
 
 namespace carto_slam
 {
   namespace common
   {
+    struct TimestampedTransform
+    {
+      common::Time time;
+      common::Rigid3d transform;
+    };
 
+    static TimestampedTransform Interpolate(const TimestampedTransform &start,
+                                     const TimestampedTransform &end,
+                                     const common::Time time)
+    {
+      // CHECK_LE(start.time, time);
+      // CHECK_GE(end.time, time);
+
+      const double duration = common::ToSeconds(end.time - start.time);
+      const double factor = common::ToSeconds(time - start.time) / duration;
+      const Eigen::Vector3d origin =
+          start.transform.translation() +
+          (end.transform.translation() - start.transform.translation()) * factor;
+      const Eigen::Quaterniond rotation =
+          Eigen::Quaterniond(start.transform.rotation())
+              .slerp(factor, Eigen::Quaterniond(end.transform.rotation()));
+      return TimestampedTransform{time, common::Rigid3d(origin, rotation)};
+    }
     // Eigen::Quaterniond FromTwoVectors(const Eigen::Vector3d &a,
     //                                   const Eigen::Vector3d &b)
     // {
@@ -21,7 +43,7 @@ namespace carto_slam
     // Returns the non-negative rotation angle in radians of the 3D transformation
     // 'transform'.
     template <typename FloatType>
-    FloatType GetAngle(const Rigid3<FloatType> &transform)
+    FloatType GetAngle(const common::Rigid3<FloatType> &transform)
     {
       return FloatType(2) * std::atan2(transform.rotation().vec().norm(), std::abs(transform.rotation().w()));
     }
@@ -39,7 +61,7 @@ namespace carto_slam
     // Returns the yaw component in radians of the given 3D transformation
     // 'transform'.
     template <typename T>
-    T GetYaw(const Rigid3<T> &transform)
+    T GetYaw(const common::Rigid3<T> &transform)
     {
       return GetYaw(transform.rotation());
     }
@@ -63,7 +85,9 @@ namespace carto_slam
       }
       // We convert the normalized_quaternion into a vector along the rotation axis
       // with length of the rotation angle.
-      const T angle = 2. * std::atan2(normalized_quaternion.vec().norm(), normalized_quaternion.w());
+//      double norm = normalized_quaternion.vec().norm();
+//      double qw = normalized_quaternion.w();
+      const T angle = 2. * atan2(normalized_quaternion.vec().norm(), normalized_quaternion.w());
       constexpr double kCutoffAngle = 1e-7; // We linearize below this angle.
       const T scale = angle < kCutoffAngle ? T(2.) : angle / sin(angle / 2.);
       return Eigen::Matrix<T, 3, 1>(scale * normalized_quaternion.x(),
@@ -91,22 +115,20 @@ namespace carto_slam
 
     // Projects 'transform' onto the XY plane.
     template <typename T>
-    Rigid2<T> Project2D(const Rigid3<T> &transform)
+    common::Rigid2<T> Project2D(const common::Rigid3<T> &transform)
     {
-      return Rigid2<T>(transform.translation().template head<2>(), GetYaw(transform));
+      return common::Rigid2<T>(transform.translation().template head<2>(), GetYaw(transform));
     }
 
     // Embeds 'transform' into 3D space in the XY plane.
     template <typename T>
-    Rigid3<T> Embed3D(const Rigid2<T> &transform)
+    common::Rigid3<T> Embed3D(const common::Rigid2<T> &transform)
     {
-      return Rigid3<T>(
+      return common::Rigid3<T>(
           {transform.translation().x(), transform.translation().y(), T(0)},
           Eigen::AngleAxis<T>(transform.rotation().angle(),
                               Eigen::Matrix<T, 3, 1>::UnitZ()));
     }
 
   } // namespace common
-} // namespace cartographer
-
-#endif
+} // namespace carto_slam

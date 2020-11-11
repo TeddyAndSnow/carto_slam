@@ -136,7 +136,7 @@ namespace carto_slam
         // We need two poses to estimate velocities.
         return;
       }
-      CHECK(!timed_pose_queue_.empty());
+      // CHECK(!timed_pose_queue_.empty());
       const TimedPose &newest_timed_pose = timed_pose_queue_.back();
       const auto newest_time = newest_timed_pose.time;
       const TimedPose &oldest_timed_pose = timed_pose_queue_.front();
@@ -144,8 +144,7 @@ namespace carto_slam
       const double queue_delta = common::ToSeconds(newest_time - oldest_time);
       if (queue_delta < common::ToSeconds(pose_queue_duration_))
       {
-        LOG(WARNING) << "Queue too short for velocity estimation. Queue duration: "
-                     << queue_delta << " s";
+        // LOG(WARNING) << "Queue too short for velocity estimation. Queue duration: " << queue_delta << " s";
         return;
       }
       const common::Rigid3d &newest_pose = newest_timed_pose.pose;

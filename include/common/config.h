@@ -109,10 +109,9 @@ namespace carto_slam {
         Eigen::Matrix3d RLI;
         Eigen::Vector3d TLI;
 
-        double occupied_space_weight_;
+        double occupied_space_weight_; //ceres_scan_matcher_2d.h
         double translation_weight_;
         double rotation_weight_;
-
         bool use_nonmonotonic_steps_;
         int max_num_iterations_;
         int num_threads_;
@@ -157,8 +156,45 @@ namespace carto_slam {
         float missing_data_ray_length_;
         int num_accumulated_range_data_;
 
-        float imu_gravity_time_constant_;
-        double pose_queue_duration_;
+        float imu_gravity_time_constant_;  //imu_tracker.h
+        double pose_queue_duration_;  //imu_tracker.h
+
+        double huber_scale_;                          //optimization_problem_2d.h
+        double odometry_translation_weight_;
+        double odometry_rotation_weight_;
+        double local_slam_pose_translation_weight_;
+        double local_slam_pose_rotation_weight_;
+        double fixed_frame_pose_translation_weight_;
+        double fixed_frame_pose_rotation_weight_;
+        bool fixed_frame_pose_use_tolerant_loss_;
+        double fixed_frame_pose_tolerant_loss_param_a_;
+        double fixed_frame_pose_tolerant_loss_param_b_;
+        bool optimization_problem_use_nonmonotonic_steps_;
+        int optimization_problem_max_num_iterations_;
+        int optimization_problem_num_threads_;
+        bool log_solver_summary_;
+
+        int fast_correlative_scan_matcher_branch_and_bound_depth_; // fast_correlative_scan_matcher_2d.h
+        double fast_correlative_scan_matcher_linear_search_window_;
+        double fast_correlative_scan_matcher_angular_search_window_;
+
+        double constraint_builder_max_constraint_distance_; //constraint_builder_2d.h
+        double constraint_builder_sampling_ratio_;
+        double constraint_builder_min_score_;
+        double constraint_builder_global_localization_min_score_;
+        bool constraint_builder_log_matches_;
+        double constraint_builder_loop_closure_translation_weight_;
+        double constraint_builder_loop_closure_rotation_weight_;
+
+        double pose_graph_global_sampling_ratio_;  //pose_graph_2d.h
+        double pose_graph_global_constraint_search_after_n_seconds_;
+        double pose_graph_matcher_translation_weight_;
+        double pose_graph_matcher_rotation_weight_;
+        int pose_graph_optimize_every_n_nodes_;
+        int pose_graph_max_num_final_iterations_;
+        int optimization_problem_ceres_solver_options_max_num_iterations_;
+
+        int num_background_threads_;
 
     private:
         YAML::Node node_;

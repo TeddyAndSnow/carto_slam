@@ -7,6 +7,8 @@
 #include "estimator/probability_values.h"
 #include "estimator/value_conversion_tables.h"
 
+#include "io/submap_painter.h"
+
 namespace carto_slam
 {
   namespace estimator
@@ -67,6 +69,8 @@ namespace carto_slam
       virtual void GrowLimits(const Eigen::Vector2f &point);
 
       virtual std::unique_ptr<Grid2D> ComputeCroppedGrid() const = 0;
+
+      virtual bool DrawToSubmapTexture(io::SubmapTextureData *const texture, common::Rigid3d local_pose) const = 0;
 
     protected:
       void GrowLimits(const Eigen::Vector2f &point,

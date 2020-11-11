@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <Eigen/Core>
 #include "rigid_transform.h"
 #include "time.h"
@@ -73,6 +74,28 @@ namespace carto_slam
         {
             common::Time time;
             common::Rigid3d pose;
+        };
+
+        // The fixed frame pose data (like GPS, pose, etc.) will be used in the
+        // optimization.
+        struct FixedFramePoseData
+        {
+            common::Time time;
+            std::optional<common::Rigid3d> pose;
+        };
+
+        struct LandmarkObservation
+        {
+            std::string id;
+            common::Rigid3d landmark_to_tracking_transform;
+            double translation_weight;
+            double rotation_weight;
+        };
+
+        struct LandmarkData
+        {
+            common::Time time;
+            std::vector<LandmarkObservation> landmark_observations;
         };
 
     } // namespace common
