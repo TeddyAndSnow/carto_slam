@@ -98,6 +98,7 @@ namespace carto_slam {
 
     public:
 
+    //////////////////////////////////// local trajectory ///////////////////////////////////////
         std::string laser_topic_;
         std::string imu_topic_;
         bool is_imu_refine_;
@@ -158,6 +159,8 @@ namespace carto_slam {
 
         float imu_gravity_time_constant_;  //imu_tracker.h
         double pose_queue_duration_;  //imu_tracker.h
+
+        ////////////////////////////////////////// loop //////////////////////////////////////////
 
         double huber_scale_;                          //optimization_problem_2d.h
         double odometry_translation_weight_;

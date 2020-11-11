@@ -49,6 +49,6 @@ private:
     int trajectory_id_;
 
     carto_slam::estimator::LocalTrajectoryBuilder2D::Ptr local_traj_builder_ptr_;
-    // carto_slam::loop::PoseGraph2D::Ptr pose_graph_ptr;
+    carto_slam::loop::PoseGraph2D::Ptr pose_graph_ptr;
     carto_slam::common::ThreadPool thread_pool_;
 };

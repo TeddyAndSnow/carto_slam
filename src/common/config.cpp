@@ -77,4 +77,42 @@ bool Config::set_config_filename(const std::string &config_filename) {
 
     imu_gravity_time_constant_ = 10.0;
     pose_queue_duration_ = 0.001;
+
+    ///////////////////////////////////////////////////////////////////
+    huber_scale_ = 1e1;
+    odometry_translation_weight_ = 1e5;
+    odometry_rotation_weight_ = 1e5;
+    local_slam_pose_translation_weight_ = 1e5;
+    local_slam_pose_rotation_weight_ = 1e5;
+    fixed_frame_pose_translation_weight_ = 1e1;
+    fixed_frame_pose_rotation_weight_ = 1e2;
+    fixed_frame_pose_use_tolerant_loss_ = false;
+    fixed_frame_pose_tolerant_loss_param_a_ = 1;
+    fixed_frame_pose_tolerant_loss_param_b_ = 1;
+    optimization_problem_use_nonmonotonic_steps_ = false;
+    optimization_problem_max_num_iterations_ = 50;
+    optimization_problem_num_threads_ = 7;
+    log_solver_summary_ = false;
+
+    fast_correlative_scan_matcher_branch_and_bound_depth_ = 7;
+    fast_correlative_scan_matcher_linear_search_window_ = 7.;
+    fast_correlative_scan_matcher_angular_search_window_ = 30.0 * M_PI / 180.0;
+
+    constraint_builder_max_constraint_distance_ = 15.;
+    constraint_builder_sampling_ratio_ = 0.3;
+    constraint_builder_min_score_ = 0.55;
+    constraint_builder_global_localization_min_score_ = 0.6;
+    constraint_builder_log_matches_ = true;
+    constraint_builder_loop_closure_translation_weight_ = 1.1e4;
+    constraint_builder_loop_closure_rotation_weight_ = 1e5;
+
+    pose_graph_global_sampling_ratio_ = 0.003;
+    pose_graph_global_constraint_search_after_n_seconds_ = 10.;
+    pose_graph_matcher_translation_weight_ = 5e2;
+    pose_graph_matcher_rotation_weight_ = 1.6e3;
+    pose_graph_optimize_every_n_nodes_ = 90;
+    pose_graph_max_num_final_iterations_ = 200;
+    optimization_problem_ceres_solver_options_max_num_iterations_ = 50;
+    
+    num_background_threads_ = 4;
 }

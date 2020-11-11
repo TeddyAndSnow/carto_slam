@@ -262,7 +262,7 @@ MappingNodeRos::MappingNodeRos(ros::NodeHandle nh, std::string config_file) : nh
     std::vector<std::string> expected_range_sensor_ids;
     expected_range_sensor_ids.push_back(std::to_string(trajectory_id_));
     local_traj_builder_ptr_ = std::make_shared<carto_slam::estimator::LocalTrajectoryBuilder2D>(config_, expected_range_sensor_ids);
-    // pose_graph_ptr = std::make_shared<carto_slam::loop::PoseGraph2D>(config_, std::make_unique<carto_slam::loop::OptimizationProblem2D>(config_), &thread_pool_);
+    pose_graph_ptr = std::make_shared<carto_slam::loop::PoseGraph2D>(config_, std::make_unique<carto_slam::loop::OptimizationProblem2D>(config_), &thread_pool_);
 }
 
 MappingNodeRos::~MappingNodeRos()
@@ -328,18 +328,20 @@ void MappingNodeRos::LaserCallback(const sensor_msgs::PointCloud2::ConstPtr &msg
     }
     std::cout << matching_result->local_pose.translation().x() << " " << matching_result->local_pose.translation().y() << " " << matching_result->local_pose.translation().z() << std::endl;
 
-    // using namespace carto_slam::estimator;
-    // std::unique_ptr<LocalTrajectoryBuilder2D::InsertionResult> insertion_result;
-    // if (matching_result->insertion_result != nullptr) {
-    //     auto node_id = pose_graph_ptr->AddNode(
-    //             matching_result->insertion_result->constant_data,
-    //             trajectory_id_,
-    //             matching_result->insertion_result->insertion_submaps);
-    //     insertion_result = std::make_unique<LocalTrajectoryBuilder2D::InsertionResult>(LocalTrajectoryBuilder2D::InsertionResult{
-    //             matching_result->insertion_result->constant_data,
-    //             std::vector<std::shared_ptr<const Submap2D>>(
-    //                     matching_result->insertion_result->insertion_submaps.begin(),
-    //                     matching_result->inseinsertion_result is null
+    using namespace carto_slam::estimator;
+    std::unique_ptr<LocalTrajectoryBuilder2D::InsertionResult> insertion_result;
+    if (matching_result->insertion_result != nullptr)
+    {
+        auto node_id = pose_graph_ptr->AddNode(
+            matching_result->insertion_result->constant_data,
+            trajectory_id_,
+            matching_result->insertion_result->insertion_submaps);
+        insertion_result = std::make_unique<LocalTrajectoryBuilder2D::InsertionResult>(LocalTrajectoryBuilder2D::InsertionResult{
+            matching_result->insertion_result->constant_data,
+            std::vector<std::shared_ptr<const Submap2D>>(
+                matching_result->insertion_result->insertion_submaps.begin(),
+                matching_result->insertion_result->insertion_submaps.end())});
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// publish trajectory
