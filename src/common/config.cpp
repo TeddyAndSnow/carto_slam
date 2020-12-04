@@ -28,7 +28,7 @@ bool Config::set_config_filename(const std::string &config_filename) {
     imu_topic_ = "/BMI088";
     is_imu_refine_ = true;
 
-    occupied_space_weight_ = 1.0;
+    occupied_space_weight_ = 100.0;//1.0;
     translation_weight_ = 10.0;
     rotation_weight_ = 40.0;
     use_nonmonotonic_steps_ = false;

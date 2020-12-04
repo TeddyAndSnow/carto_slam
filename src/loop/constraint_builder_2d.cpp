@@ -299,8 +299,7 @@ namespace carto_slam
         }
         if (options_.constraint_builder_log_matches_)
         {
-          LOG(INFO) << constraints_.size() << " computations resulted in "
-                    << result.size() << " additional constraints.";
+          LOG(INFO) << constraints_.size() << " computations resulted in " << result.size() << " additional constraints.";
 //          LOG(INFO) << "Score histogram:\n" << score_histogram_.ToString(10);
         }
         constraints_.clear();

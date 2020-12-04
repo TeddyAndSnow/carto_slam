@@ -283,6 +283,8 @@ void MappingNodeRos::run()
 
 void MappingNodeRos::LaserCallback(const sensor_msgs::PointCloud2::ConstPtr &msg)
 {
+
+    std::cout << "================================================================" << std::endl;
     common::PointCloudWithIntensities point_cloud;
     common::Time time;
     std::tie(point_cloud, time) = ToPointCloudWithIntensities(*msg);
@@ -320,28 +322,29 @@ void MappingNodeRos::LaserCallback(const sensor_msgs::PointCloud2::ConstPtr &msg
                                                              common::TransformTimedPointCloud(filter_point_cloud.points, sensor_to_tracking.cast<float>())};
 
     // std::cout << "Add Range Data" << std::endl;
-    auto matching_result = local_traj_builder_ptr_->AddRangeData(std::to_string(trajectory_id_), transform_point_cloud);
+    /// local trajectory
+    auto matching_result = local_traj_builder_ptr_->AddRangeData(config_.laser_topic_, transform_point_cloud);
     if (matching_result == nullptr)
     {
         std::cout << "matching_result is null" << std::endl;
         return;
     }
-    std::cout << matching_result->local_pose.translation().x() << " " << matching_result->local_pose.translation().y() << " " << matching_result->local_pose.translation().z() << std::endl;
+    // std::cout << matching_result->local_pose.translation().x() << " " << matching_result->local_pose.translation().y() << " " << matching_result->local_pose.translation().z() << std::endl;
 
     using namespace carto_slam::estimator;
-    std::unique_ptr<LocalTrajectoryBuilder2D::InsertionResult> insertion_result;
-    if (matching_result->insertion_result != nullptr)
-    {
-        auto node_id = pose_graph_ptr->AddNode(
-            matching_result->insertion_result->constant_data,
-            trajectory_id_,
-            matching_result->insertion_result->insertion_submaps);
-        insertion_result = std::make_unique<LocalTrajectoryBuilder2D::InsertionResult>(LocalTrajectoryBuilder2D::InsertionResult{
-            matching_result->insertion_result->constant_data,
-            std::vector<std::shared_ptr<const Submap2D>>(
-                matching_result->insertion_result->insertion_submaps.begin(),
-                matching_result->insertion_result->insertion_submaps.end())});
-    }
+    // std::unique_ptr<LocalTrajectoryBuilder2D::InsertionResult> insertion_result;
+    // if (matching_result->insertion_result != nullptr)
+    // {
+    //     // std::cout << "insertion submaps size: " << matching_result->insertion_result->insertion_submaps.size() << std::endl;
+    //     auto node_id = pose_graph_ptr->AddNode(matching_result->insertion_result->constant_data,
+    //                                            trajectory_id_,
+    //                                            matching_result->insertion_result->insertion_submaps);
+    //     // insertion_result = std::make_unique<LocalTrajectoryBuilder2D::InsertionResult>(LocalTrajectoryBuilder2D::InsertionResult{
+    //     //     matching_result->insertion_result->constant_data,
+    //     //     std::vector<std::shared_ptr<const Submap2D>>(
+    //     //         matching_result->insertion_result->insertion_submaps.begin(),
+    //     //         matching_result->insertion_result->insertion_submaps.end())});
+    // }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /// publish trajectory
@@ -385,24 +388,55 @@ void MappingNodeRos::LaserCallback(const sensor_msgs::PointCloud2::ConstPtr &msg
     }
 
     /// publish scan
-    std::cout << "size: " << transform_point_cloud.ranges.size() << std::endl;
+    // std::cout << "size: " << transform_point_cloud.ranges.size() << std::endl;
     scan_matched_point_cloud_publisher_.publish(ToPointCloud2Message(common::ToUniversal(matching_result->time), "map",
                                                                      common::TransformTimedPointCloud(transform_point_cloud.ranges, matching_result->local_pose.cast<float>())));
 
     /// publish submap
+    if (matching_result->insertion_result == nullptr)
+    {
+        // std::cout << "matching_result's insertion_result is null" << std::endl;
+        return;
+    }
+
     std::map<estimator::SubmapId, io::SubmapSlice> submap_slices_;
     estimator::SubmapId id(1, 1);
     io::SubmapSlice &submap_slice = submap_slices_[id];
     std::unique_ptr<io::SubmapTextures> fetched_textures = std::make_unique<::io::SubmapTextures>();
-    if (matching_result->insertion_result == nullptr)
-    {
-        std::cout << "insertion_result is null" << std::endl;
-        return;
-    }
+
     std::cout << "submap size: " << matching_result->insertion_result->insertion_submaps.size() << std::endl;
 
+    // std::cout << "local pose: (xyz) " << 
+    // matching_result->local_pose.translation().x() << " " << 
+    // matching_result->local_pose.translation().y() << " " << 
+    // matching_result->local_pose.translation().z() << " (xyzw)" << 
+    // matching_result->local_pose.rotation().x() << " " <<
+    // matching_result->local_pose.rotation().y() << " " <<
+    // matching_result->local_pose.rotation().z() << " " << 
+    // matching_result->local_pose.rotation().w() << std::endl;
+
+    // std::cout << "constant_data: (xyz) " << 
+    // matching_result->insertion_result->constant_data->local_pose.translation().x() << " " << 
+    // matching_result->insertion_result->constant_data->local_pose.translation().y() << " " << 
+    // matching_result->insertion_result->constant_data->local_pose.translation().z() << " (xyzw)" << 
+    // matching_result->insertion_result->constant_data->local_pose.rotation().x() << " " <<
+    // matching_result->insertion_result->constant_data->local_pose.rotation().y() << " " <<
+    // matching_result->insertion_result->constant_data->local_pose.rotation().z() << " " << 
+    // matching_result->insertion_result->constant_data->local_pose.rotation().w() << std::endl;
+
+    std::vector<common::Rigid3d> submap_local_pose;
     for (auto submap : matching_result->insertion_result->insertion_submaps)
     {
+        // if (submap->insertion_finished()) {
+        //     std::cout << "insertion finished" << std::endl;
+        // } else {
+        //     std::cout << "insertion not finished" << std::endl;
+        // }
+
+        // std::cout << "xyz: " << submap->local_pose().translation().x() << " " << 
+        // submap->local_pose().translation().y() << " " << submap->local_pose().translation().z() << std::endl;
+
+        submap_local_pose.emplace_back(submap->local_pose());
         auto texture = ToSubmapTexture(submap);
         const std::string compressed_cells(texture->cells.begin(), texture->cells.end());
         fetched_textures->textures.emplace_back(io::SubmapTexture{
@@ -411,14 +445,15 @@ void MappingNodeRos::LaserCallback(const sensor_msgs::PointCloud2::ConstPtr &msg
             texture->slice_pose});
     }
 
-    std::cout << "fetched_texture_size: " << fetched_textures->textures.size() << std::endl;
+    // std::cout << "fetched_texture_size: " << fetched_textures->textures.size() << std::endl;
     submap_slice.version = fetched_textures->version;
-    submap_slice.pose = common::Rigid3d();
+    submap_slice.pose = submap_local_pose.back();  // n-1
 
     // We use the first texture only. By convention this is the highest
     // resolution texture and that is the one we want to use to construct the
     // map for ROS.
-    const auto fetched_texture = fetched_textures->textures.begin();
+    // const auto fetched_texture = fetched_textures->textures.begin();
+    const auto fetched_texture = fetched_textures->textures.end() - 1; // n-1
     submap_slice.width = fetched_texture->width;
     submap_slice.height = fetched_texture->height;
     submap_slice.slice_pose = fetched_texture->slice_pose;
@@ -428,6 +463,9 @@ void MappingNodeRos::LaserCallback(const sensor_msgs::PointCloud2::ConstPtr &msg
         fetched_texture->pixels.intensity, fetched_texture->pixels.alpha,
         fetched_texture->width, fetched_texture->height,
         &submap_slice.cairo_data);
+
+    std::cout << "slice_pose: " << submap_slices_[id].slice_pose.translation().x() << " " << submap_slices_[id].slice_pose.translation().y() << " " << submap_slices_[id].slice_pose.translation().z() << std::endl;
+    std::cout << "pose: " << submap_slices_[id].pose.translation().x() << " " << submap_slices_[id].pose.translation().y() << " " << submap_slices_[id].pose.translation().z() << std::endl;
 
     auto painted_slices = io::PaintSubmapSlices(submap_slices_, 0.05);
     std::unique_ptr<nav_msgs::OccupancyGrid> msg_ptr = CreateOccupancyGridMsg(painted_slices, 0.05, "map", ros::Time::now());
@@ -442,6 +480,9 @@ void MappingNodeRos::ImuCallback(const sensor_msgs::Imu::ConstPtr &msg)
         auto tranform_imu = common::ImuData{imu_data_ptr->time, imu_data_ptr->linear_acceleration,
                                             imu_data_ptr->angular_velocity};
         // std::cout << "Add Imu Data" << std::endl;
+        /// local trajectory
         local_traj_builder_ptr_->AddImuData(tranform_imu);
+
+        // pose_graph_ptr->AddImuData(trajectory_id_, *imu_data_ptr);
     }
 }

@@ -152,15 +152,16 @@ namespace carto_slam
                                     const int trajectory_id,
                                     const std::vector<std::shared_ptr<const Submap2D>> &insertion_submaps)
         {
-            const common::Rigid3d optimized_pose(
-                GetLocalToGlobalTransform(trajectory_id) * constant_data->local_pose);
+            const common::Rigid3d optimized_pose(GetLocalToGlobalTransform(trajectory_id) * constant_data->local_pose);
 
-            const NodeId node_id = AppendNode(constant_data, trajectory_id,
-                                              insertion_submaps, optimized_pose);
+            // std::cout << "trajectory_id: " << trajectory_id << " " << optimized_pose.translation().x() << " " << optimized_pose.translation().y() << " " << optimized_pose.translation().z() << std::endl;
+            std::cout << constant_data->high_resolution_point_cloud.size() << " " << constant_data->low_resolution_point_cloud.size() << " " << constant_data->filtered_gravity_aligned_point_cloud.size() << std::endl;
+            std::cout << constant_data->local_pose.translation().x() << " " << constant_data->local_pose.translation().y() << " " << constant_data->local_pose.translation().z() << std::endl;
+
+            const NodeId node_id = AppendNode(constant_data, trajectory_id, insertion_submaps, optimized_pose);
             // We have to check this here, because it might have changed by the time we
             // execute the lambda.
-            const bool newly_finished_submap =
-                insertion_submaps.front()->insertion_finished();
+            const bool newly_finished_submap = insertion_submaps.front()->insertion_finished();
             AddWorkItem([=]() LOCKS_EXCLUDED(mutex_) {
                 return ComputeConstraintsForNode(node_id, insertion_submaps,
                                                  newly_finished_submap);
@@ -204,8 +205,7 @@ namespace carto_slam
             }
         }
 
-        void PoseGraph2D::AddImuData(const int trajectory_id,
-                                     const common::ImuData &imu_data)
+        void PoseGraph2D::AddImuData(const int trajectory_id, const common::ImuData &imu_data)
         {
             AddWorkItem([=]() LOCKS_EXCLUDED(mutex_) {
                 absl::MutexLock locker(&mutex_);
@@ -289,8 +289,7 @@ namespace carto_slam
                 if (node_id.trajectory_id == submap_id.trajectory_id ||
                     node_time <
                         last_connection_time +
-                            common::FromSeconds(
-                                options_.pose_graph_global_constraint_search_after_n_seconds_))
+                            common::FromSeconds(options_.pose_graph_global_constraint_search_after_n_seconds_))
                 {
                     // If the node and the submap belong to the same trajectory or if there
                     // has been a recent global constraint that ties that node's trajectory to

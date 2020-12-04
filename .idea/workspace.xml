@@ -20,19 +20,19 @@
       <config projectName="carto_slam" targetName="geometry_msgs_generate_messages_py" />
       <config projectName="carto_slam" targetName="geometry_msgs_generate_messages_nodejs" />
       <config projectName="carto_slam" targetName="roscpp_generate_messages_cpp" />
-      <config projectName="carto_slam" targetName="carto_slam" />
       <config projectName="carto_slam" targetName="std_msgs_generate_messages_lisp" />
+      <config projectName="carto_slam" targetName="carto_slam" />
       <config projectName="carto_slam" targetName="rosgraph_msgs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="rosgraph_msgs_generate_messages_cpp" />
       <config projectName="carto_slam" targetName="visualization_msgs_generate_messages_py" />
       <config projectName="carto_slam" targetName="gmock_main" />
       <config projectName="carto_slam" targetName="actionlib_msgs_generate_messages_cpp" />
-      <config projectName="carto_slam" targetName="visualization_msgs_generate_messages_eus" />
       <config projectName="carto_slam" targetName="visualization_msgs_generate_messages_lisp" />
+      <config projectName="carto_slam" targetName="visualization_msgs_generate_messages_eus" />
       <config projectName="carto_slam" targetName="std_srvs_generate_messages_eus" />
       <config projectName="carto_slam" targetName="roscpp_generate_messages_lisp" />
-      <config projectName="carto_slam" targetName="nav_msgs_generate_messages_cpp" />
       <config projectName="carto_slam" targetName="topic_tools_generate_messages_cpp" />
+      <config projectName="carto_slam" targetName="nav_msgs_generate_messages_cpp" />
       <config projectName="carto_slam" targetName="sensor_msgs_generate_messages_cpp" />
       <config projectName="carto_slam" targetName="sensor_msgs_generate_messages_nodejs" />
       <config projectName="carto_slam" targetName="geometry_msgs_generate_messages_cpp" />
@@ -45,16 +45,16 @@
       <config projectName="carto_slam" targetName="std_srvs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="actionlib_msgs_generate_messages_eus" />
       <config projectName="carto_slam" targetName="visualization_msgs_generate_messages_cpp" />
-      <config projectName="carto_slam" targetName="geometry_msgs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="topic_tools_generate_messages_eus" />
+      <config projectName="carto_slam" targetName="geometry_msgs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="topic_tools_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="tests" />
       <config projectName="carto_slam" targetName="std_msgs_generate_messages_cpp" />
       <config projectName="carto_slam" targetName="rosgraph_msgs_generate_messages_nodejs" />
       <config projectName="carto_slam" targetName="sensor_msgs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="topic_tools_generate_messages_nodejs" />
-      <config projectName="carto_slam" targetName="nav_msgs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="run_tests" />
+      <config projectName="carto_slam" targetName="nav_msgs_generate_messages_lisp" />
       <config projectName="carto_slam" targetName="std_srvs_generate_messages_py" />
       <config projectName="carto_slam" targetName="visualization_msgs_generate_messages_nodejs" />
       <config projectName="carto_slam" targetName="std_msgs_generate_messages_nodejs" />
@@ -72,35 +72,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff1fd06b-e162-4588-8e19-91fdb72bba59" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/include/loop/pose_graph_2d.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/include/mapping/carto_mapping.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/loop/pose_graph_2d.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mapping/carto_mapping.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/app/mapping_ros.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/app/mapping_ros.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/common/basic_types.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/common/basic_types.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/common/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/common/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/common/math.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/common/math.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/common/transform.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/common/transform.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/2d/grid_2d.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/2d/grid_2d.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/2d/probability_grid.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/2d/probability_grid.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/2d/tsd_value_converter.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/2d/tsd_value_converter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/2d/tsdf_2d.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/2d/tsdf_2d.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/id.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/id.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/local_trajectory_builder_2d.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/local_trajectory_builder_2d.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/range_data_collator.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/range_data_collator.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/estimator/submaps.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/estimator/submaps.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/mapping_main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mapping_main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/mapping_ros.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mapping_ros.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/config.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/config.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/2d/probability_grid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/2d/probability_grid.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/2d/submap_2d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/2d/submap_2d.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/2d/tsdf_2d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/2d/tsdf_2d.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/2d/tsdf_range_data_inserter_2d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/2d/tsdf_range_data_inserter_2d.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/local_trajectory_builder_2d.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/local_trajectory_builder_2d.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/pose_extrapolator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/pose_extrapolator.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/range_data_collator.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/range_data_collator.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/estimator/value_conversion_tables.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/estimator/value_conversion_tables.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -116,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/loop/pose_graph_2d.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="69" column="57" lean-forward="true" selection-start-line="69" selection-start-column="57" selection-end-line="69" selection-end-column="57" />
+            <state relative-caret-position="1173">
+              <caret line="69" column="57" selection-start-line="69" selection-start-column="57" selection-end-line="69" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -125,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/loop/pose_graph_2d.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
+            <state relative-caret-position="24769">
               <caret line="1457" column="26" selection-start-line="1457" selection-start-column="26" selection-end-line="1457" selection-end-column="26" />
             </state>
           </provider>
@@ -134,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/include/app/mapping_ros.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="712">
-              <caret line="51" column="52" lean-forward="true" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="52" />
+            <state relative-caret-position="867">
+              <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
               <folding>
                 <element signature="e#14#40#0" expanded="true" />
               </folding>
@@ -147,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/src/app/mapping_ros.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="315" lean-forward="true" selection-start-line="315" selection-end-line="315" />
+              <caret line="315" selection-start-line="315" selection-end-line="315" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -158,7 +130,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/loop/constraint_builder_2d.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1172">
+            <state relative-caret-position="5168">
               <caret line="304" column="9" selection-start-line="304" selection-start-column="9" selection-end-line="304" selection-end-column="9" />
             </state>
           </provider>
@@ -167,7 +139,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/estimator/local_trajectory_builder_2d.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="1411">
               <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
             </state>
           </provider>
@@ -641,10 +613,6 @@
       <item itemvalue="Application.geometry_msgs_generate_messages_lisp" />
       <item itemvalue="Application.geometry_msgs_generate_messages_nodejs" />
       <item itemvalue="Application.geometry_msgs_generate_messages_py" />
-      <item itemvalue="Application.gmock" />
-      <item itemvalue="Application.gmock_main" />
-      <item itemvalue="Application.gtest" />
-      <item itemvalue="Application.gtest_main" />
       <item itemvalue="Application.nav_msgs_generate_messages_cpp" />
       <item itemvalue="Application.nav_msgs_generate_messages_eus" />
       <item itemvalue="Application.nav_msgs_generate_messages_lisp" />
@@ -687,6 +655,10 @@
       <item itemvalue="Application.visualization_msgs_generate_messages_lisp" />
       <item itemvalue="Application.visualization_msgs_generate_messages_nodejs" />
       <item itemvalue="Application.visualization_msgs_generate_messages_py" />
+      <item itemvalue="Application.gmock" />
+      <item itemvalue="Application.gmock_main" />
+      <item itemvalue="Application.gtest" />
+      <item itemvalue="Application.gtest_main" />
     </list>
   </component>
   <component name="SvnConfiguration">
@@ -701,17 +673,17 @@
       <updated>1604399830808</updated>
       <workItem from="1604399832251" duration="9617000" />
       <workItem from="1604563007825" duration="9446000" />
+      <workItem from="1605082156033" duration="599000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19063000" />
+    <option name="totallyTimeSpent" value="19662000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="369" y="1" width="1959" height="1407" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10622711" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.107273676" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -941,29 +913,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/loop/optimization_problem_2d.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2703">
-          <caret line="159" column="58" selection-start-line="159" selection-start-column="58" selection-end-line="159" selection-end-column="58" />
-          <folding>
-            <element signature="e#1#42#0" expanded="true" />
-            <element signature="e#226#255#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/loop/cost_helpers_impl.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="60" column="74" selection-start-line="60" selection-start-column="74" selection-end-line="60" selection-end-column="74" />
-          <folding>
-            <element signature="e#14#35#0" expanded="true" />
-            <element signature="e#1421#1433#0" expanded="true" />
-            <element signature="e#6597#6609#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../LIBS/3rdparty/include/absl/strings/str_cat.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
@@ -988,24 +937,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/loop/constraint_builder_2d.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1172">
-          <caret line="304" column="9" selection-start-line="304" selection-start-column="9" selection-end-line="304" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="799">
           <caret line="47" selection-start-line="47" selection-end-line="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/estimator/local_trajectory_builder_2d.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1025,24 +960,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/include/loop/pose_graph_2d.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="69" column="57" lean-forward="true" selection-start-line="69" selection-start-column="57" selection-end-line="69" selection-end-column="57" />
+        <state relative-caret-position="1173">
+          <caret line="69" column="57" selection-start-line="69" selection-start-column="57" selection-end-line="69" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/loop/pose_graph_2d.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
+        <state relative-caret-position="24769">
           <caret line="1457" column="26" selection-start-line="1457" selection-start-column="26" selection-end-line="1457" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/include/app/mapping_ros.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="712">
-          <caret line="51" column="52" lean-forward="true" selection-start-line="51" selection-start-column="52" selection-end-line="51" selection-end-column="52" />
+        <state relative-caret-position="867">
+          <caret line="51" column="49" selection-start-line="51" selection-start-column="49" selection-end-line="51" selection-end-column="49" />
           <folding>
             <element signature="e#14#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/loop/constraint_builder_2d.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5168">
+          <caret line="304" column="9" selection-start-line="304" selection-start-column="9" selection-end-line="304" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/estimator/local_trajectory_builder_2d.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1411">
+          <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/loop/optimization_problem_2d.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2703">
+          <caret line="159" column="58" selection-start-line="159" selection-start-column="58" selection-end-line="159" selection-end-column="58" />
+          <folding>
+            <element signature="e#1#42#0" expanded="true" />
+            <element signature="e#226#255#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/loop/cost_helpers_impl.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="60" column="74" selection-start-line="60" selection-start-column="74" selection-end-line="60" selection-end-column="74" />
+          <folding>
+            <element signature="e#14#35#0" expanded="true" />
+            <element signature="e#1421#1433#0" expanded="true" />
+            <element signature="e#6597#6609#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1050,7 +1022,7 @@
     <entry file="file://$PROJECT_DIR$/src/app/mapping_ros.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="315" lean-forward="true" selection-start-line="315" selection-end-line="315" />
+          <caret line="315" selection-start-line="315" selection-end-line="315" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>

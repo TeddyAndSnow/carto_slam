@@ -178,12 +178,9 @@ namespace carto_slam
         // TODO(gaschler): This assumes that 'range_data_poses.back()' is at time
         // 'time'.
         accumulated_range_data_.origin = range_data_poses.back().translation();
-        return AddAccumulatedRangeData(
-            time,
-            TransformToGravityAlignedFrameAndFilter(
-                gravity_alignment.cast<float>() * range_data_poses.back().inverse(),
-                accumulated_range_data_),
-            gravity_alignment, sensor_duration);
+        return AddAccumulatedRangeData(time,
+                                       TransformToGravityAlignedFrameAndFilter(gravity_alignment.cast<float>() * range_data_poses.back().inverse(), accumulated_range_data_),
+                                       gravity_alignment, sensor_duration);
       }
       return nullptr;
     }
